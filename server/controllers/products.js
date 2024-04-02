@@ -42,4 +42,17 @@ const postProduct = catchAsync(async (req, res, next) => {
   res.status(201).json({ msg: "Product listed" });
 });
 
-module.exports = { postProduct };
+// to delete a product
+const deleteProduct = catchAsync(async (req, res, next) => {
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    return next(new ErrorHandler("Invalid product ID", 401));
+  }
+
+  const delelteProduct = await Product.findByIdAndDelete({
+    _id: req.params.id,
+  });
+
+  res.status(200).json({ msg: "Product deleted" });
+});
+
+module.exports = { postProduct, deleteProduct };
