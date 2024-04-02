@@ -87,4 +87,14 @@ const createOrder = catchAsync(async (req, res, next) => {
   }
 });
 
-module.exports = { createOrder };
+// to get all the orders
+const getOrders = catchAsync(async (req, res, next) => {
+  const orders = await Order.find({})
+    .sort({ createdAt: -1 })
+    .populate("user cart")
+    .populate({ path: "cart", populate: { path: "products" } });
+
+  res.status(200).send(orders);
+});
+
+module.exports = { createOrder, getOrders };
