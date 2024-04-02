@@ -6,6 +6,7 @@ const {
   postProduct,
   deleteProduct,
   getProducts,
+  getProduct,
 } = require("../controllers/products");
 
 // multer for image upload on post
@@ -40,5 +41,7 @@ router.post("/postproducts", uploadOptions.array("images", 10), postProduct);
 router.delete("/deleteproduct/:id", deleteProduct);
 
 router.get("/getproducts", getProducts);
+
+router.get("/getproduct/:id", getProduct);
 
 module.exports = router;

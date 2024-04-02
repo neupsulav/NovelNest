@@ -62,4 +62,15 @@ const getProducts = catchAsync(async (req, res, next) => {
   res.status(200).send(products);
 });
 
-module.exports = { postProduct, deleteProduct, getProducts };
+// to get a single product
+const getProduct = catchAsync(async (req, res, next) => {
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    return next(new ErrorHandler("Invalid product ID", 401));
+  }
+
+  const product = await Product.findById({ _id: req.params.id });
+
+  res.status(200).send(product);
+});
+
+module.exports = { postProduct, deleteProduct, getProducts, getProduct };
