@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const ErrorHandler = require("../middlewares/errorHandler");
 const catchAsync = require("../middlewares/catchAsync");
+const { sendVerificationMail } = require("./emailVerification");
 
 // user registration
 const userRegistration = catchAsync(async (req, res, next) => {
@@ -31,6 +32,9 @@ const userRegistration = catchAsync(async (req, res, next) => {
         new ErrorHandler("Something went wrong, User not created!", 500)
       );
     }
+
+    // send verification mail
+    sendVerificationMail(req.body.name, req.body.email, newUser._id);
   } else {
     const filename = file.filename;
     const basepath = `${req.protocol}://${req.get(
@@ -53,10 +57,14 @@ const userRegistration = catchAsync(async (req, res, next) => {
         new ErrorHandler("Something went wrong, User not created!", 500)
       );
     }
+
+    // send verification mail
+    sendVerificationMail(req.body.name, req.body.email, newUser._id);
   }
 
   res.status(201).json({
     success: true,
+    msg: "An email has been sent. Please verify your account.",
   });
 });
 

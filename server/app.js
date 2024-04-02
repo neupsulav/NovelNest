@@ -4,6 +4,7 @@ const errorHandlerMiddleware = require("./middlewares/ErrorHandlerMiddleware");
 const noRoute = require("./middlewares/noRoute");
 const connectDatabase = require("./db/connect");
 const authRouters = require("./routers/auth");
+const emailVerificationRouter = require("./routers/emailVerification");
 
 const app = express();
 dotenv.config();
@@ -11,6 +12,7 @@ const PORT = process.env.port || 3000;
 
 app.use(express.json());
 app.use("/api/auth", authRouters);
+app.use("/api", emailVerificationRouter);
 
 // error handler middlewares
 app.use(errorHandlerMiddleware);
