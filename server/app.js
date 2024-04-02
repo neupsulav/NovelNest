@@ -6,6 +6,7 @@ const connectDatabase = require("./db/connect");
 const authRouters = require("./routers/auth");
 const emailVerificationRouter = require("./routers/emailVerification");
 const productsRouter = require("./routers/products");
+const cartRouter = require("./routers/cart");
 
 const app = express();
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(
 app.use("/api/auth", authRouters);
 app.use("/api", emailVerificationRouter);
 app.use("/api", productsRouter);
+app.use("/api", cartRouter);
 
 // error handler middlewares
 app.use(errorHandlerMiddleware);

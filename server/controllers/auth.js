@@ -2,6 +2,7 @@ const User = require("../models/User");
 const ErrorHandler = require("../middlewares/errorHandler");
 const catchAsync = require("../middlewares/catchAsync");
 const { sendVerificationMail } = require("./emailVerification");
+const Cart = require("../models/Cart");
 
 // user registration
 const userRegistration = catchAsync(async (req, res, next) => {
@@ -35,6 +36,13 @@ const userRegistration = catchAsync(async (req, res, next) => {
 
     // send verification mail
     sendVerificationMail(req.body.name, req.body.email, newUser._id);
+
+    // to create a cart for user
+    const createCart = await Cart.create({
+      owner: newUser._id,
+    });
+
+    createCart.save();
   } else {
     const filename = file.filename;
     const basepath = `${req.protocol}://${req.get(
@@ -59,7 +67,13 @@ const userRegistration = catchAsync(async (req, res, next) => {
     }
 
     // send verification mail
-    sendVerificationMail(req.body.name, req.body.email, newUser._id);
+    sendVerificatio; // to create a cart for user
+    const createCart = await Cart.create({
+      owner: newUser._id,
+    });
+
+    createCart.save();
+    nMail(req.body.name, req.body.email, newUser._id);
   }
 
   res.status(201).json({
