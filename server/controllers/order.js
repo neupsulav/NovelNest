@@ -154,10 +154,30 @@ const shippedOrder = catchAsync(async (req, res, next) => {
   res.status(200).json({ msg: "Order status changed" });
 });
 
+// delivered update
+const deliveredOrder = catchAsync(async (req, res, next) => {
+  const orderId = req.params.id;
+
+  const updateOrderState = await Order.findByIdAndUpdate(
+    { _id: orderId },
+    { delivered: true },
+    { new: true }
+  );
+
+  sendOrderUpdateMail(
+    updateOrderState.fname,
+    updateOrderState.email,
+    "Delivered"
+  );
+
+  res.status(200).json({ msg: "Order status changed" });
+});
+
 module.exports = {
   createOrder,
   getOrders,
   approveOrder,
   processOrder,
   shippedOrder,
+  deliveredOrder,
 };

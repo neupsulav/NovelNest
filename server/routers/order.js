@@ -10,6 +10,7 @@ const {
   approveOrder,
   processOrder,
   shippedOrder,
+  deliveredOrder,
 } = require("../controllers/order");
 
 // multer for image upload on post
@@ -53,5 +54,7 @@ router.patch("/approveorder/:id", approveOrder);
 router.patch("/processorder/:id", processOrder);
 
 router.patch("/shippedorder/:id", shippedOrder);
+
+router.patch("/deliverorder/:id", deliveredOrder);
 
 module.exports = router;
