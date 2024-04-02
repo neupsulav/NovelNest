@@ -26,6 +26,24 @@ const addItemsToCart = catchAsync(async (req, res, next) => {
   res.status(200).json({ msg: "Product added to cart" });
 });
 
+// get cart items
+const getCartItems = catchAsync(async (req, res, next) => {
+  const userId = req.user.userId;
+
+  let totalPrice = 0;
+
+  const usersCart = await Cart.findOne({ owner: userId })
+    .select("products -_id")
+    .populate("products");
+
+  usersCart.products.map((product) => {
+    totalPrice += product.currentprice;
+  });
+
+  res.status(200).json({ usersCart, totalPrice });
+});
+
 module.exports = {
   addItemsToCart,
+  getCartItems,
 };
