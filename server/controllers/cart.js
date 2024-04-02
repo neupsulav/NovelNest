@@ -43,7 +43,30 @@ const getCartItems = catchAsync(async (req, res, next) => {
   res.status(200).json({ usersCart, totalPrice });
 });
 
+// remove cart items
+const removeCartItems = catchAsync(async (req, res, next) => {
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    return next(new ErrorHandler("Invalid product ID", 401));
+  }
+
+  const userId = req.user.userId;
+  const productId = req.params.id;
+
+  const usersCart = await Cart.findOne({ owner: userId });
+
+  // const product = await Product.findOne({ productId: productId });
+
+  const removeCartItems = await Cart.findByIdAndUpdate(
+    { _id: usersCart._id },
+    { $pull: { products: productId } },
+    { new: true }
+  );
+
+  res.status(200).json({ msg: "Product removed from cart" });
+});
+
 module.exports = {
   addItemsToCart,
   getCartItems,
+  removeCartItems,
 };
