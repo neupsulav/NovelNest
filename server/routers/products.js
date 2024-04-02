@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 
-const { postProduct, deleteProduct } = require("../controllers/products");
+const {
+  postProduct,
+  deleteProduct,
+  getProducts,
+} = require("../controllers/products");
 
 // multer for image upload on post
 const FILE_TYPE_MAP = {
@@ -34,5 +38,7 @@ const uploadOptions = multer({ storage: storage });
 router.post("/postproducts", uploadOptions.array("images", 10), postProduct);
 
 router.delete("/deleteproduct/:id", deleteProduct);
+
+router.get("/getproducts", getProducts);
 
 module.exports = router;
