@@ -4,7 +4,11 @@ const multer = require("multer");
 
 const authentication = require("../middlewares/authentication");
 
-const { createOrder, getOrders } = require("../controllers/order");
+const {
+  createOrder,
+  getOrders,
+  approveOrder,
+} = require("../controllers/order");
 
 // multer for image upload on post
 const FILE_TYPE_MAP = {
@@ -41,5 +45,7 @@ router.post(
 );
 
 router.get("/getorders", getOrders);
+
+router.patch("/approveorder/:id", approveOrder);
 
 module.exports = router;
